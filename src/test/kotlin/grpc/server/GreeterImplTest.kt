@@ -16,10 +16,10 @@ import server.GreeterImpl
 
 class GreeterImplTest {
 
-  private lateinit var blockingStub: GreeterGrpcKt.GreeterCoroutineStub
-
   @JvmField @Rule
   val grpcCleanup: GrpcCleanupRule = GrpcCleanupRule()
+
+  private lateinit var blockingStub: GreeterGrpcKt.GreeterCoroutineStub
 
   @BeforeEach
   fun setUp() {

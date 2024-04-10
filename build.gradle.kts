@@ -26,12 +26,12 @@ dependencies {
     // Protobuf
     implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
 
-    // Ktor for HTTP calls
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    // Engine
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    // Required for proto related dependencies like google/api/annotations.proto
+    // implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
+    implementation("com.google.api.grpc:proto-google-common-protos:2.37.1")
 
-    implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
+    // Async
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
     testImplementation("io.grpc:grpc-testing:$grpcVersion")
     testImplementation(kotlin("test"))

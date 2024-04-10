@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option java_package = "com.jaco.example.car";
+
+service CarService {
+  rpc GetCar(GetCarRequest) returns (Car);
+  rpc ListCars(ListCarsRequest) returns (ListCarsResponse);
+
+  //... Update, Delete
+}
+
+message Car {
+  string name = 1;
+  string model = 2;
+  uint32 year = 3;
+  Color color = 4;
+  repeated Feature features = 5;
+  int64 price = 6;
+  // ... other fields
+
+  message Color {
+    ColorType interior = 1;
+    ColorType exterior = 2;
+
+    enum ColorType {
+      COLOR_TYPE_UNKNOWN = 0;
+      RED = 1;
+      BLUE = 2;
+      YELLOW = 3;
+      WHITE = 4;
+    }
+  }
+
+  message Feature {
+    FeatureType feature_type = 1;
+    bool included = 2;
+
+    enum FeatureType {
+      FEATURE_TYPE_UNKNOWN = 0;
+      ANDROID_AUDIO = 1;
+      CAR_PLAY = 2;
+      BACK_UP_CAMERA = 3;
+    }
+  }
+}
+
+message GetCarRequest {
+  string name = 1;
+}
+
+message ListCarsRequest {
+  //  https://google.aip.dev/general
+  string order_by = 1;
+  string filter = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+
+message ListCarsResponse {
+  repeated Car cars = 1;
+  string next_page_token = 2;
+}
+
+// BatchGet

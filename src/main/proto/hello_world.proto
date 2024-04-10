@@ -13,7 +13,7 @@ message HelloWorldReply {
 }
 
 
-service Greeter{
+service Greeter {
   rpc SayHello(HelloWorldRequest) returns (HelloWorldReply) {
     option (google.api.http) = {
       post: "/v1/greeter/sayHelloStream"
