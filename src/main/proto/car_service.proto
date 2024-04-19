@@ -1,55 +1,38 @@
 syntax = "proto3";
 
+package jaco.example.car;
+
+import "car.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+
 option java_package = "com.jaco.example.car";
 
 service CarService {
+  rpc CreateCar(Car) returns (Car);
   rpc GetCar(GetCarRequest) returns (Car);
   rpc ListCars(ListCarsRequest) returns (ListCarsResponse);
+
+  // More advanced example of AIP compliant method
+  // https://google.aip.dev/general
+  rpc UpdateCar(UpdateCarRequest) returns (Car) {
+    option (google.api.http) = {
+      patch: "/v1/{car.name=cars/*}"
+      body: "car"
+    };
+    option (google.api.method_signature) = "car,update_mask";
+  };
 
   //... Update, Delete
 }
 
-message Car {
-  string name = 1;
-  string model = 2;
-  uint32 year = 3;
-  Color color = 4;
-  repeated Feature features = 5;
-  int64 price = 6;
-  // ... other fields
-
-  message Color {
-    ColorType interior = 1;
-    ColorType exterior = 2;
-
-    enum ColorType {
-      COLOR_TYPE_UNKNOWN = 0;
-      RED = 1;
-      BLUE = 2;
-      YELLOW = 3;
-      WHITE = 4;
-    }
-  }
-
-  message Feature {
-    FeatureType feature_type = 1;
-    bool included = 2;
-
-    enum FeatureType {
-      FEATURE_TYPE_UNKNOWN = 0;
-      ANDROID_AUDIO = 1;
-      CAR_PLAY = 2;
-      BACK_UP_CAMERA = 3;
-    }
-  }
-}
 
 message GetCarRequest {
   string name = 1;
 }
 
 message ListCarsRequest {
-  //  https://google.aip.dev/general
   string order_by = 1;
   string filter = 2;
   int32 page_size = 3;
@@ -61,4 +44,9 @@ message ListCarsResponse {
   string next_page_token = 2;
 }
 
-// BatchGet
+message UpdateCarRequest {
+  Car car = 1;
+
+  // Optional field to update only selected fields
+  google.protobuf.FieldMask update_mask = 2;
+}
