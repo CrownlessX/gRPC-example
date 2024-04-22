@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
     id("com.google.protobuf") version "0.9.4"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 group = "org.jaco"
@@ -40,6 +40,8 @@ dependencies {
 
     // JSON
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
 
@@ -76,6 +78,17 @@ protobuf {
             task.builtins {
                 id("kotlin")
             }
+        }
+    }
+}
+
+// Optional in our case, but added to demonstrate how to specify where to search for protos in
+// others than default folder - src/main/proto
+sourceSets {
+    main {
+        proto {
+            srcDir("path/to/proto/folder") // put a folder path where protos located
+            // You can add more srcDir lines for additional folders
         }
     }
 }

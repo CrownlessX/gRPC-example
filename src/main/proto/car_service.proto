@@ -8,13 +8,14 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 
 option java_package = "com.jaco.example.car";
+option java_multiple_files = true;
 
 service CarService {
   rpc CreateCar(Car) returns (Car);
   rpc GetCar(GetCarRequest) returns (Car);
   rpc ListCars(ListCarsRequest) returns (ListCarsResponse);
 
-  // More advanced example of AIP compliant method
+  // More advanced example of AIP compliant operations
   // https://google.aip.dev/general
   rpc UpdateCar(UpdateCarRequest) returns (Car) {
     option (google.api.http) = {
@@ -24,7 +25,7 @@ service CarService {
     option (google.api.method_signature) = "car,update_mask";
   };
 
-  //... Update, Delete
+  //... other operations
 }
 
 

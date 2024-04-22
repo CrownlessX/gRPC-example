@@ -1,22 +1,25 @@
 package example
 
-import com.jaco.example.car.CarFeedServiceGrpcKt
-import com.jaco.example.car.getCarFeedRequest
+import com.jaco.example.car.CarServiceGrpcKt
+import com.jaco.example.car.getCarRequest
 import io.grpc.ManagedChannelBuilder
 import java.util.concurrent.TimeUnit
 
 /**
- * Car Feed Service Client gRPC implementation
+ * Car Service Client gRPC implementation
  */
 suspend fun main() {
   val channel = ManagedChannelBuilder.forAddress("localhost", CAR_PORT).usePlaintext()
     .intercept(LoggingInterceptor()).build()
 
-  val feedStub = CarFeedServiceGrpcKt.CarFeedServiceCoroutineStub(channel)
+  val stub = CarServiceGrpcKt.CarServiceCoroutineStub(channel)
 
-  feedStub.getCarFeed(getCarFeedRequest {  }).collect {
-    println(it)
+  val request = getCarRequest {
+    name = "cars/123"
   }
+
+  val response = stub.getCar(request)
+  println(response)
 
   channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
 }

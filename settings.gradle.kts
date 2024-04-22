@@ -1,9 +1,9 @@
 pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+  }
+
 }
-rootProject.name = "Test"
+rootProject.name = "gRPC-example"
 

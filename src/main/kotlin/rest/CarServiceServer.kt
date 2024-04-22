@@ -1,24 +1,35 @@
+package rest
+
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.application.install
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.server.plugins.callloging.*
-import rest.Car
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
 import rest.Car.Color
 import rest.Car.Color.ColorType
 import rest.Car.Feature
 import rest.Car.Feature.FeatureType
 
+/**
+ * * Car Service Client REST implementation
+ */
 fun main() {
-  embeddedServer(Netty, port = 8080, module = Application::myApplicationModule).start(wait = true)
+  embeddedServer(Netty, port = 8081, module = Application::module).start(wait = true)
 }
 
-fun Application.myApplicationModule() {
+/**
+ * Modules configuration and routing for a server
+ */
+fun Application.module() {
   install(
     CallLogging
   )
@@ -31,8 +42,8 @@ fun Application.myApplicationModule() {
       call.respond(cars)
     }
 
-   get("/cars/{id}") {
-      call.respond(cars.filter { car -> car.id == call.parameters["id"]!!.toInt()})
+    get("/cars/{id}") {
+      call.respond(cars.first { car -> car.id == call.parameters["id"]!!.toInt() })
     }
 
     post("/cars") {

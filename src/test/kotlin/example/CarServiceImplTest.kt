@@ -12,7 +12,9 @@ import io.grpc.inprocess.InProcessServerBuilder
 import io.grpc.testing.GrpcCleanupRule
 import kotlin.test.assertContentEquals
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -33,6 +35,7 @@ class CarServiceImplTest {
         .start()
     )
 
+    // Create a stub and connect to created test service channel
     carServiceStub = CarServiceGrpcKt.CarServiceCoroutineStub(
       grpcCleanup.register(
         InProcessChannelBuilder.forName(serverName).build()

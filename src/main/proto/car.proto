@@ -3,6 +3,7 @@ syntax = "proto3";
 package jaco.example.car;
 
 option java_package = "com.jaco.example.car";
+option java_outer_classname = "CarProto";
 
 message Car {
   string name = 1;
@@ -12,6 +13,10 @@ message Car {
   repeated Feature features = 5;
   int64 price = 6;
   // ... other fields
+
+  string some_deprecated_field = 9 [deprecated = true];
+  reserved 7, 8;
+  reserved "reserver_field_name";
 
   message Color {
     ColorType interior = 1;

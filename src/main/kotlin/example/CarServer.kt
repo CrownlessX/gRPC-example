@@ -5,7 +5,7 @@ import io.grpc.ServerBuilder
 const val CAR_PORT = 1536
 
 /**
- * Server for CarService
+ * Server for Car Service gRPC implementation
  */
 fun main() {
   val server = ServerBuilder.forPort(CAR_PORT)
