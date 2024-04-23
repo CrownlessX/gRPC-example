@@ -44,6 +44,7 @@ fun Application.module() {
 
     get("/cars/{id}") {
       call.respond(cars.first { car -> car.id == call.parameters["id"]!!.toInt() })
+      // Java:     cars.stream().filter { car -> car.id == call.parameters["id"]!!.toInt() }.findFirst().get())
     }
 
     post("/cars") {

@@ -14,11 +14,14 @@ suspend fun main() {
 
   val stub = CarServiceGrpcKt.CarServiceCoroutineStub(channel)
 
+  // Step 1: create a request proto
   val request = getCarRequest {
     name = "cars/123"
   }
 
+  // Step 2: call a stub
   val response = stub.getCar(request)
+  // Step 6: handle response
   println(response)
 
   channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)

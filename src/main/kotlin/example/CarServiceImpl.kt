@@ -21,6 +21,14 @@ internal class CarServiceImpl : CarServiceGrpcKt.CarServiceCoroutineImplBase() {
 
   private val cars = mutableListOf(highlander, corolla)
 
+  // Steps 3 & 4 & 5: handle request -> prepare response proto -> return it
+  override suspend fun getCar(request: GetCarRequest): Car =
+    cars.firstOrNull { car -> car.name == request.name } ?: car { }
+  // In Java:
+  // cars.stream().filter{ car -> car.name == request.name }
+  //              .findFirst()
+  //              .orElse(Car.getDefaultInstance())
+
   override suspend fun createCar(request: Car): Car {
     // Id generation
     val carWithName = request.copy { name = "cars/${Random.nextInt(150, 300)}" }
@@ -32,11 +40,6 @@ internal class CarServiceImpl : CarServiceGrpcKt.CarServiceCoroutineImplBase() {
 
     return carWithName
   }
-
-  override suspend fun getCar(request: GetCarRequest): Car =
-    cars.firstOrNull { car -> car.name == request.name } ?: car { }
-  // In Java:
-  // cars.stream().filter{ car -> car.name == request.name }.findFirst().orElse(Car.getDefaultInstance())
 
   override suspend fun listCars(request: ListCarsRequest): ListCarsResponse =
     listCarsResponse {
@@ -63,7 +66,31 @@ internal class CarServiceImpl : CarServiceGrpcKt.CarServiceCoroutineImplBase() {
       price = 40000
     }
 
-  val corolla = car {
+    // In Java:
+    // Car.newBuilder()
+    //   .setName("cars/123")
+    //   .setModel("Toyota Highlander XSE")
+    //   .setYear(2023)
+    //   .setColor(Car.Color.newBuilder()
+    //               .setInterior(WHITE)
+    //               .setExterior(BLUE)
+    //               .build())
+    //   .addAllFeatures(
+    //     listOf(
+    //       Car.Feature.newBuilder()
+    //         .setFeatureType(CAR_PLAY)
+    //         .setIncluded(true)
+    //         .build(),
+    //       Car.Feature.newBuilder()
+    //         .setFeatureType(BACK_UP_CAMERA)
+    //         .setIncluded(false)
+    //         .build()
+    //     )
+    //   )
+    //   .setPrice(40000)
+    //   .build()
+
+    val corolla = car {
       name = "cars/124"
       model = "Toyota Corolla LE"
       year = 2024

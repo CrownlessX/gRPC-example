@@ -9,8 +9,7 @@ import java.util.concurrent.TimeUnit
  * Car Feed Service Client gRPC implementation
  */
 suspend fun main() {
-  val channel = ManagedChannelBuilder.forAddress("localhost", CAR_PORT).usePlaintext()
-    .intercept(LoggingInterceptor()).build()
+  val channel = ManagedChannelBuilder.forAddress("localhost", CAR_PORT).usePlaintext().build()
 
   val feedStub = CarFeedServiceGrpcKt.CarFeedServiceCoroutineStub(channel)
 

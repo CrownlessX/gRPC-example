@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flow
 
 internal class CarFeedServiceImpl : CarFeedServiceGrpcKt.CarFeedServiceCoroutineImplBase() {
 
-  override fun getCarFeed(request: CarFeedServiceOuterClass.GetCarFeedRequest): Flow<CarFeed> {
+  override fun getCarFeed(request: CarFeedServiceOuterClass.GetCarFeedRequest): Flow<CarFeed> { // For Java: StreamObserver<StockQuote>
     return flow {
       while (true) {
         emit(generateRecord())
